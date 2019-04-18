@@ -63,6 +63,7 @@ class BooksApp extends React.Component {
 		<BrowserRouter>
 		  <Route exact path='/search' render={() => (
 			  <SearchPage
+				  books={books}
 				  onChangeBookShelf={this.changeBookShelf}
 			  />
 		  )} />

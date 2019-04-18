@@ -12,18 +12,33 @@ class SearchPage extends React.Component{
         filteredBooks: [],
         updatedTimeStamp: this.timeStampNow
     };
-
+    updateBookListWithShelf = (bookListWithShelf, filteredBookList) => {
+        return filteredBookList.map((book) => {
+            const idAndShelf = bookListWithShelf.filter((myBook) => myBook.id === book.id);
+            if(idAndShelf.length > 0)
+                book.shelf = idAndShelf[0].shelf;
+            else
+                book.shelf = 'none';
+            return book;
+        });
+    };
     updateSearchResults = (event) => {
         const queryInput = event.target.value;
         const {updatedTimeStamp} = this.state;
         const currentDate = new Date();
         const timeStampNow = currentDate.getTime();
-
+        const {books} = this.props;
+        const bookListWithShelf = books.map((book) => ({
+            id: book.id,
+            shelf: book.shelf
+        }));
         if(queryInput.length > 0 && updatedTimeStamp < timeStampNow){
 
             API.search(queryInput).then(filteredBooks => {
                 const { error } = filteredBooks;
-                const newBooks = error ? []: filteredBooks;
+                const filteredBooksWithShelf = this.updateBookListWithShelf(bookListWithShelf, filteredBooks);
+                const newBooks = error ? []: filteredBooksWithShelf;
+
                 this.setState( (currentState) => {
                     if(timeStampNow > currentState.updatedTimeStamp)
                     {
@@ -40,7 +55,7 @@ class SearchPage extends React.Component{
                 updatedTimeStamp: timeStampNow
             }))
         }
-    }
+    };
 
     updateShelfLocal = (oldBook, newBookShelf) => {
         this.props.onChangeBookShelf(oldBook, newBookShelf);
@@ -51,7 +66,7 @@ class SearchPage extends React.Component{
 
                 const generatedBook = {
                     ...oldBook,
-                    shelf : newBookShelf
+                    shelf: newBookShelf
                 };
                 return generatedBook;
             }else{
@@ -103,6 +118,7 @@ class SearchPage extends React.Component{
 }
 
 SearchPage.propTypes = {
+    books: PropTypes.array.isRequired,
     onChangeBookShelf: PropTypes.func.isRequired
 };
 
