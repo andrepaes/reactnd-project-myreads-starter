@@ -16,3 +16,4 @@ Start the development server with:
 ```shell 
 npm start
 ```
+If everything run fine, a link will be available (here is localhost:3000/) to enter in your favorite browser and use the app.
