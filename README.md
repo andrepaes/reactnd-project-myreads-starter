@@ -6,7 +6,7 @@ This is a MyReads project from Udacity nanodegree program. The purpose of this p
 ## Getting Started :rocket:
 First we'll clone the project:
 ```shell
-$ git clone https://github.com/andrepaes/reactnd-project-myreads-starter
+$ git clone https://github.com/andrepaes/reactnd-project-myreads-starter.git
 ```
 Install all project dependencies with:
 ```shell
